@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import FBSDKLoginKit
 
 class LoginViewController: UIViewController {
 
@@ -74,6 +75,13 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    private let facebookLoginButton: FBLoginButton = {
+        let button = FBLoginButton()
+        button.permissions = ["email, public_profile"]
+        
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Log In"
@@ -96,7 +104,14 @@ class LoginViewController: UIViewController {
                scrollView.addSubview(emailField)
                scrollView.addSubview(passwordField)
                scrollView.addSubview(loginButton)
-            }
+        
+        facebookLoginButton.delegate = self
+        
+        
+        // FACEBOOK
+               scrollView.addSubview(facebookLoginButton)
+    
+        }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -119,6 +134,12 @@ class LoginViewController: UIViewController {
                                   y: passwordField.bottom + 30,
                                   width: scrollView.width-60,
                                   height: 52)
+        facebookLoginButton.frame = CGRect(x: 30,
+                                  y: loginButton.bottom + 30,
+                                  width: scrollView.width-60,
+                                  height: 52)
+
+        facebookLoginButton.frame.origin.y = loginButton.bottom + 20
     }
     
     // Test string in Empty
@@ -190,5 +211,92 @@ extension LoginViewController: UITextFieldDelegate {
         
         return true
     }
+    
+}
+
+extension LoginViewController: LoginButtonDelegate {
+
+    func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
+        // no operation
+    }
+    
+    // Button login fb done. And unpacking token fb
+    
+    func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
+        guard let token = result?.token?.tokenString else {
+            print("User failed to log in with facebook")
+            return
+        }
+        
+       // Request email and email (retrunt User)
+        
+        let facebookRequst = FBSDKLoginKit.GraphRequest(graphPath: "me",
+                                                        parameters: ["fields": "email ,name"],
+                                                        tokenString: token,
+                                                        version: nil,
+                                                        httpMethod: .get)
+        
+        facebookRequst.start(completionHandler: {_, result, error in
+            guard let result = result as? [String: Any],
+                error == nil else {
+                print("Failed to make facebook request")
+                return
+            }
+            
+            // Unwrap name -> first name and last name (index)
+            
+            guard let userName = result["name"] as? String,
+            let email = result["email"] as? String else {
+                print("Faield to get email and name from fb result")
+            return
+            }
+            
+            // separated first and last name
+            
+            let nameComponents = userName.components(separatedBy: " ")
+            guard nameComponents.count == 2 else {
+                return
+            }
+            
+            let firestName = nameComponents[0]
+            let lastName = nameComponents[1]
+            
+            // test database email.
+            
+            DatabaseManager.shared.userExist(with: email, completion: { exists in
+                if !exists {
+                    DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firestName,
+                                                                        lastName: lastName,
+                                                                        emailAddress: email))
+                    
+                }
+            })
+            
+            // Get uesr data firebase. Use firebase date.
+            
+            let credential = FacebookAuthProvider.credential(withAccessToken: token)
+            
+            FirebaseAuth.Auth.auth().signIn(with: credential, completion: { [weak self] authResult, error in
+                
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                guard authResult != nil , error == nil else {
+                    if let error = error {
+                        print("Facebook credential login failed, MFA may be needed - \(error)")
+                    }
+                    
+                    return
+                }
+                
+                print("Successfully logged user in ")
+                strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+            })
+        })
+        
+       
+    }
+    
     
 }
