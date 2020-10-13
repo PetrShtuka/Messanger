@@ -5,14 +5,17 @@ target 'Messanger' do
 
 use_frameworks!
 
-#FireBase
+#Firebase
 
 pod 'Firebase/Core'
 pod 'Firebase/Auth'
 pod 'Firebase/Database'
 
-#FaceBook
+#Facebook
 
 pod 'FBSDKLoginKit'
+
+#Google
+pod 'GoogleSignIn'
 
 end

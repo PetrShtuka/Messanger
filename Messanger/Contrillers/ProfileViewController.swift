@@ -7,6 +7,8 @@
 
 import UIKit
 import FirebaseAuth
+import FBSDKLoginKit
+import GoogleSignIn
 
 class ProfileViewController: UIViewController {
 
@@ -23,10 +25,7 @@ class ProfileViewController: UIViewController {
         tableView.dataSource = self
         
     }
-    
-
 }
-
 
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -54,6 +53,12 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                                         guard let strongSelf = self else {
                                             return
                                         }
+                                        
+                                        // Log Out Facebook
+                                        FBSDKLoginKit.LoginManager().logOut()
+                                        
+                                        // Google Log out
+                                        GIDSignIn.sharedInstance()?.signOut()
                                         
                                         do {
                                             try FirebaseAuth.Auth.auth().signOut()
