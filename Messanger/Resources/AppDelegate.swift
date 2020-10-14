@@ -72,6 +72,7 @@ func application( _ app: UIApplication, open url: URL,
         
         DatabaseManager.shared.userExist(with: email, completion: { exists in
             if !exists {
+                
                 // insert to database
                 DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName,
                                                                     lastName: lastName,
