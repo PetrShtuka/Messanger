@@ -20,7 +20,7 @@ class ConversationsViewController: UIViewController {
                        forCellReuseIdentifier: "cell")
         return table
     }()
-
+    
     private let noConversationsLabel: UILabel = {
         let label = UILabel()
         label.text = "No Conversations!"
@@ -41,14 +41,14 @@ class ConversationsViewController: UIViewController {
         view.addSubview(noConversationsLabel)
         setupTableView()
         fetchConversations()
-}
+    }
     
     @objc private func didTapComposeButton()  {
         let vc = NewConversationViewController()
         let navVc = UINavigationController(rootViewController: vc)
         present(navVc, animated: true)
     }
-
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
@@ -59,7 +59,7 @@ class ConversationsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-       validateAuth()
+        validateAuth()
         
         
     }

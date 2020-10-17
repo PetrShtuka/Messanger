@@ -12,24 +12,24 @@ import GoogleSignIn
 import JGProgressHUD
 
 class LoginViewController: UIViewController {
-
+    
     private let spinner = JGProgressHUD(style: .dark)
     
     private let scrollView: UIScrollView = {
-            let scrollView = UIScrollView()
-            scrollView.clipsToBounds = true
-            return scrollView
-        }()
-
-        private let imageView: UIImageView = {
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "logo")
-            imageView.contentMode = .scaleAspectFit
-            return imageView
-        }()
+        let scrollView = UIScrollView()
+        scrollView.clipsToBounds = true
+        return scrollView
+    }()
+    
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "logo")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
     
     private let emailField : UITextField = {
-       let field = UITextField()
+        let field = UITextField()
         field.autocapitalizationType = .none
         field.autocorrectionType = .no
         field.returnKeyType = .done
@@ -37,19 +37,17 @@ class LoginViewController: UIViewController {
         field.layer.borderWidth = 1
         field.layer.borderColor = UIColor.lightGray.cgColor
         field.placeholder = "Email Adress ..."
-        
         field.leftView = UIView(frame: CGRect(x: 0,
                                               y: 0,
                                               width: 10,
                                               height: 0))
         field.leftViewMode = .always
         field.backgroundColor = .white
-        
         return field
     }()
     
     private let passwordField : UITextField = {
-       let field = UITextField()
+        let field = UITextField()
         field.autocapitalizationType = .none
         field.autocorrectionType = .no
         field.returnKeyType = .continue
@@ -64,7 +62,6 @@ class LoginViewController: UIViewController {
                                               height: 0))
         field.leftViewMode = .always
         field.backgroundColor = .white
-        
         return field
     }()
     
@@ -82,7 +79,6 @@ class LoginViewController: UIViewController {
     private let facebookLoginButton: FBLoginButton = {
         let button = FBLoginButton()
         button.permissions = ["email, public_profile"]
-        
         return button
     }()
     
@@ -94,18 +90,15 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //
-            
         loginObserver = NotificationCenter.default.addObserver(forName: .didLoginNotification,
-                                               object: nil,
-                                               queue: .main,
-                                               using: {[weak self] _ in
-                                                guard let storngSelf = self else {
-                                                    return
-                                                }
-                                                
-                                                storngSelf.navigationController?.dismiss(animated: true, completion: nil)
-                                    })
+                                                               object: nil,
+                                                               queue: .main,
+                                                               using: {[weak self] _ in
+                                                                guard let storngSelf = self else {
+                                                                    return
+                                                                }
+                                                                storngSelf.navigationController?.dismiss(animated: true, completion: nil)
+                                                               })
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
         
@@ -125,16 +118,16 @@ class LoginViewController: UIViewController {
         
         // Add subviews
         view.addSubview(scrollView)
-               scrollView.addSubview(imageView)
-               scrollView.addSubview(emailField)
-               scrollView.addSubview(passwordField)
-               scrollView.addSubview(loginButton)
-               scrollView.addSubview(googleLogInButton)
-            
-               facebookLoginButton.delegate = self
-                    // FACEBOOK
-               scrollView.addSubview(facebookLoginButton)
-        }
+        scrollView.addSubview(imageView)
+        scrollView.addSubview(emailField)
+        scrollView.addSubview(passwordField)
+        scrollView.addSubview(loginButton)
+        scrollView.addSubview(googleLogInButton)
+        
+        facebookLoginButton.delegate = self
+        // FACEBOOK
+        scrollView.addSubview(facebookLoginButton)
+    }
     
     deinit {
         if let observer = loginObserver {
@@ -156,21 +149,21 @@ class LoginViewController: UIViewController {
                                   width: scrollView.width-60,
                                   height: 52)
         passwordField.frame = CGRect(x: 30,
-                                  y: emailField.bottom + 10,
-                                  width: scrollView.width-60,
-                                  height: 52)
+                                     y: emailField.bottom + 10,
+                                     width: scrollView.width-60,
+                                     height: 52)
         loginButton.frame = CGRect(x: 30,
-                                  y: passwordField.bottom + 30,
-                                  width: scrollView.width-60,
-                                  height: 52)
+                                   y: passwordField.bottom + 30,
+                                   width: scrollView.width-60,
+                                   height: 52)
         facebookLoginButton.frame = CGRect(x: 30,
-                                  y: loginButton.bottom + 30,
-                                  width: scrollView.width-60,
-                                  height: 52)
+                                           y: loginButton.bottom + 30,
+                                           width: scrollView.width-60,
+                                           height: 52)
         googleLogInButton.frame = CGRect(x: 30,
-                                  y: facebookLoginButton.bottom + 30,
-                                  width: scrollView.width-60,
-                                  height: 52)
+                                         y: facebookLoginButton.bottom + 30,
+                                         width: scrollView.width-60,
+                                         height: 52)
     }
     
     // Test string in Empty
@@ -183,13 +176,13 @@ class LoginViewController: UIViewController {
         guard let email = emailField.text,
               let password = passwordField.text,
               !email.isEmpty, !password.isEmpty, password.count >= 6 else {
-                alertUserLoginError()
-                return
+            alertUserLoginError()
+            return
         }
         
         spinner.show(in: view)
         
-    // MARK:  FireBase Log In
+        // MARK:  FireBase Log In
         
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: { [weak self] authResult, error in
             guard let strongSelf = self else {
@@ -200,23 +193,22 @@ class LoginViewController: UIViewController {
                 strongSelf.spinner.dismiss()
             }
             
-            
             guard let result = authResult, error == nil else {
                 print("Failed to log in user with email \(email)")
                 return
             }
             
             let user = result.user
+            
+            UserDefaults.standard.set(email, forKey: "email")
+            
             print("Logged In User\(user)")
             
             // Login User -> Delete SignIn
             
             strongSelf.navigationController?.dismiss(animated: true, completion: nil)
         })
-        
     }
-    
-    
     
     func alertUserLoginError() {
         let alert = UIAlertController(title: "Error",
@@ -226,8 +218,6 @@ class LoginViewController: UIViewController {
         
         present(alert, animated: true)
     }
-    
-    
     // Register new user
     
     @objc private func didTapRegister() {
@@ -235,26 +225,22 @@ class LoginViewController: UIViewController {
         vc.title = "Create Account"
         navigationController?.pushViewController(vc, animated: true)
     }
-
 }
 
 extension LoginViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-       if textField == emailField {
+        if textField == emailField {
             passwordField.becomeFirstResponder()
-       } else if textField == passwordField {
-        loginButtonTapped()
-       }
-        
-        return true
+        } else if textField == passwordField {
+            loginButtonTapped()
+        }
+            return true
     }
-    
 }
 
 extension LoginViewController: LoginButtonDelegate {
-
+    
     func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
         // no operation
     }
@@ -267,7 +253,7 @@ extension LoginViewController: LoginButtonDelegate {
             return
         }
         
-       // Request email and email (retrunt User)
+        // Request email and email (retrunt User)
         
         let facebookRequst = FBSDKLoginKit.GraphRequest(graphPath: "me",
                                                         parameters: ["fields":
@@ -278,7 +264,7 @@ extension LoginViewController: LoginButtonDelegate {
         
         facebookRequst.start(completionHandler: {_, result, error in
             guard let result = result as? [String: Any],
-                error == nil else {
+                  error == nil else {
                 print("Failed to make facebook request")
                 return
             }
@@ -289,11 +275,11 @@ extension LoginViewController: LoginButtonDelegate {
                   let picture = result["picture"] as? [String: Any],
                   let data = picture["data"] as? [String: Any],
                   let pictureURL = data["url"] as? String else{
-                    print("Faield to get email and name from fb result")
-                    return
+                print("Faield to get email and name from fb result")
+                return
             }
             
-            print(result)
+            UserDefaults.standard.set(email, forKey: "email")
             
             // test database email.
             
@@ -323,21 +309,19 @@ extension LoginViewController: LoginButtonDelegate {
                                 
                                 let filename = chatUser.profilePictureFileName
                                 StorageManager.shared.uploadProfilePicture(with: data, fileName: filename, completion: { result in
-                                                                            switch result {
-                                                                            case .success(let downloadURL):
-                                                                                UserDefaults.standard.set(downloadURL, forKey: "profile_picture_url")
-                                                                                print(downloadURL)
-                                                                            case .failure(let error):
-                                                                                print("Storage manager error: \(error)")
-                                                                            }
-                                                                           })
+                                    switch result {
+                                    case .success(let downloadURL):
+                                        UserDefaults.standard.set(downloadURL, forKey: "profile_picture_url")
+                                        print(downloadURL)
+                                    case .failure(let error):
+                                        print("Storage manager error: \(error)")
+                                    }
+                                })
                             }).resume()
                         }
                     })
-                    
                 }
             })
-            
             // Get uesr data firebase. Use firebase date.
             
             let credential = FacebookAuthProvider.credential(withAccessToken: token)
@@ -352,17 +336,11 @@ extension LoginViewController: LoginButtonDelegate {
                     if let error = error {
                         print("Facebook credential login failed, MFA may be needed - \(error)")
                     }
-                    
                     return
                 }
-                
                 print("Successfully logged user in ")
                 strongSelf.navigationController?.dismiss(animated: true, completion: nil)
             })
         })
-        
-       
     }
-    
-    
 }

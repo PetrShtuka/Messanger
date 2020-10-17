@@ -14,10 +14,6 @@ final class StorageManager {
     
     private let storage = Storage.storage().reference()
     
-    /*
-     /images/pitmailcom-gmail-com_profile_picture.png
-     */
-    
     // Return string or error
     public typealias UploadPictureCompletion = (Result<String, Error>) -> Void
     
@@ -34,7 +30,6 @@ final class StorageManager {
             }
             
             // not get URL Error
-            
             self.storage.child("images/\(fileName)").downloadURL(completion: { url, error in
                 guard let url = url else {
                     print("Failed to get download url")
@@ -43,19 +38,29 @@ final class StorageManager {
                 }
                 
                 // key success
-                
                 let urlString = url.absoluteString
                 print("download url returned: \(urlString)")
                 completion(.success(urlString))
-                
             })
         })
-        
     }
     
     public enum StorageErrors: Error {
         case failedToUpload
         case failedToGetDownloadUrl
+    }
+    
+    func downloadURL(for path: String, completion: @escaping (Result<URL, Error>) -> Void) {
+        let reference = storage.child(path)
+        
+        reference.downloadURL(completion: { url, error in
+            guard let url = url, error == nil else {
+                completion(.failure(StorageErrors.failedToGetDownloadUrl))
+                return
+            }
+            
+            completion(.success(url))
+        })
     }
     
 }

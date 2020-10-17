@@ -22,7 +22,7 @@ struct Sender: SenderType {
 }
 
 class ChatViewController: MessagesViewController {
-
+    
     private var messages = [Message]()
     
     private let selfSender = Sender(photoURL: "",
@@ -41,12 +41,12 @@ class ChatViewController: MessagesViewController {
                                 messageId: "1",
                                 sentDate: Date(),
                                 kind: .text("Hello World message. Hello App. Hello All")))
-
+        
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
     }
-
+    
 }
 
 extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate {
