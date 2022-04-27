@@ -11,16 +11,22 @@ import RxRelay
 
 class LoginViewModel {
     
-    private var user: LoginModel?
-    private let isLoading : BehaviorRelay<Bool> = BehaviorRelay(value: false)
-    private let emailIdViewModel = EmailIdViewModel()
-    private let passwordViewModel = PasswordViewModel()
+    private let user: LoginModel = LoginModel()
+    let isSuccess: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    let isLoading: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    let errorMsg: BehaviorRelay<String> = BehaviorRelay(value: "")
+    let emailIdViewModel = EmailIdViewModel()
+    let passwordViewModel = PasswordViewModel()
+    
+    func validateCredentials() -> Bool {
+        return emailIdViewModel.validateCredentials() && passwordViewModel.validateCredentials();
+    }
+    
+    
     func authenticateToEmail() {
         
-        guard var user = user else { return }
-        
         user.email = emailIdViewModel.data.value
-        user.password = emailIdViewModel.data.value
+        user.password = passwordViewModel.data.value
         
         self.isLoading.accept(true)
         
@@ -36,15 +42,13 @@ class LoginViewModel {
             } else {
                 print("User signs up successfully")
                 let newUserInfo = Auth.auth().currentUser
-                guard let user = self?.user else {
-                    return
-                }
-                
-                let email = user.email
+                print(newUserInfo)
+                let email = self?.user.email
+                print(email)
             }
             
             guard let result = authResult, error == nil else {
-                print("Failed to log in user with email \(user.email)")
+                print("Failed to log in user with email \(self?.user.email)")
                 return
             }
             

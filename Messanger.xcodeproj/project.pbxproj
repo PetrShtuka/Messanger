@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D05EE90528191E710063E93C /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D05EE90428191E710063E93C /* SnapKit */; };
+		D05EE90D281920F00063E93C /* LoginViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D05EE90C281920F00063E93C /* LoginViewController.storyboard */; };
+		D05EE910281929AF0063E93C /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05EE90F281929AF0063E93C /* UITextField.swift */; };
+		D05EE91228192CC00063E93C /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05EE91128192CC00063E93C /* UIColor.swift */; };
+		D05EE91828196FD00063E93C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D05EE91728196FD00063E93C /* GoogleService-Info.plist */; };
 		D0EA76192816EBB100FB914B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EA76182816EBB100FB914B /* AppDelegate.swift */; };
 		D0EA761B2816EBB100FB914B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EA761A2816EBB100FB914B /* SceneDelegate.swift */; };
 		D0EA761D2816EBB100FB914B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EA761C2816EBB100FB914B /* ViewController.swift */; };
@@ -18,15 +23,9 @@
 		D0EA763D2816EBB300FB914B /* MessangerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EA763C2816EBB300FB914B /* MessangerUITests.swift */; };
 		D0EA763F2816EBB300FB914B /* MessangerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EA763E2816EBB300FB914B /* MessangerUITestsLaunchTests.swift */; };
 		D0EA764D2816EC1C00FB914B /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = D0EA764C2816EC1C00FB914B /* RxBlocking */; };
-		D0EA764F2816EC1C00FB914B /* RxBlocking-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = D0EA764E2816EC1C00FB914B /* RxBlocking-Dynamic */; };
 		D0EA76512816EC1C00FB914B /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = D0EA76502816EC1C00FB914B /* RxCocoa */; };
-		D0EA76532816EC1C00FB914B /* RxCocoa-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = D0EA76522816EC1C00FB914B /* RxCocoa-Dynamic */; };
 		D0EA76552816EC1C00FB914B /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = D0EA76542816EC1C00FB914B /* RxRelay */; };
-		D0EA76572816EC1C00FB914B /* RxRelay-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = D0EA76562816EC1C00FB914B /* RxRelay-Dynamic */; };
 		D0EA76592816EC1C00FB914B /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D0EA76582816EC1C00FB914B /* RxSwift */; };
-		D0EA765B2816EC1C00FB914B /* RxSwift-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = D0EA765A2816EC1C00FB914B /* RxSwift-Dynamic */; };
-		D0EA765D2816EC1C00FB914B /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = D0EA765C2816EC1C00FB914B /* RxTest */; };
-		D0EA765F2816EC1C00FB914B /* RxTest-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = D0EA765E2816EC1C00FB914B /* RxTest-Dynamic */; };
 		D0EA76652816EC5A00FB914B /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EA76642816EC5A00FB914B /* LoginViewModel.swift */; };
 		D0EA76672816EC6A00FB914B /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EA76662816EC6A00FB914B /* LoginModel.swift */; };
 		D0EA76692816EC7600FB914B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EA76682816EC7600FB914B /* LoginViewController.swift */; };
@@ -54,6 +53,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D05EE90C281920F00063E93C /* LoginViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LoginViewController.storyboard; sourceTree = "<group>"; };
+		D05EE90F281929AF0063E93C /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
+		D05EE91128192CC00063E93C /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		D05EE91728196FD00063E93C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D0EA76152816EBB100FB914B /* Messanger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Messanger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0EA76182816EBB100FB914B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0EA761A2816EBB100FB914B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -81,16 +84,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0EA765B2816EC1C00FB914B /* RxSwift-Dynamic in Frameworks */,
-				D0EA765D2816EC1C00FB914B /* RxTest in Frameworks */,
 				D0EA76552816EC1C00FB914B /* RxRelay in Frameworks */,
-				D0EA76532816EC1C00FB914B /* RxCocoa-Dynamic in Frameworks */,
-				D0EA76572816EC1C00FB914B /* RxRelay-Dynamic in Frameworks */,
 				D0EA76512816EC1C00FB914B /* RxCocoa in Frameworks */,
 				D0EA764D2816EC1C00FB914B /* RxBlocking in Frameworks */,
 				D0EA766C2816F0F800FB914B /* FirebaseAuth in Frameworks */,
-				D0EA764F2816EC1C00FB914B /* RxBlocking-Dynamic in Frameworks */,
-				D0EA765F2816EC1C00FB914B /* RxTest-Dynamic in Frameworks */,
+				D05EE90528191E710063E93C /* SnapKit in Frameworks */,
 				D0EA76592816EC1C00FB914B /* RxSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -112,6 +110,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D05EE90E2819299B0063E93C /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				D05EE90F281929AF0063E93C /* UITextField.swift */,
+				D05EE91128192CC00063E93C /* UIColor.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		D0EA760C2816EBB100FB914B = {
 			isa = PBXGroup;
 			children = (
@@ -135,6 +142,8 @@
 		D0EA76172816EBB100FB914B /* Messanger */ = {
 			isa = PBXGroup;
 			children = (
+				D05EE91728196FD00063E93C /* GoogleService-Info.plist */,
+				D05EE90E2819299B0063E93C /* Extension */,
 				D0EA76602816EC2F00FB914B /* LoginViewController */,
 				D0EA76182816EBB100FB914B /* AppDelegate.swift */,
 				D0EA761A2816EBB100FB914B /* SceneDelegate.swift */,
@@ -187,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				D0EA76682816EC7600FB914B /* LoginViewController.swift */,
+				D05EE90C281920F00063E93C /* LoginViewController.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -220,16 +230,11 @@
 			name = Messanger;
 			packageProductDependencies = (
 				D0EA764C2816EC1C00FB914B /* RxBlocking */,
-				D0EA764E2816EC1C00FB914B /* RxBlocking-Dynamic */,
 				D0EA76502816EC1C00FB914B /* RxCocoa */,
-				D0EA76522816EC1C00FB914B /* RxCocoa-Dynamic */,
 				D0EA76542816EC1C00FB914B /* RxRelay */,
-				D0EA76562816EC1C00FB914B /* RxRelay-Dynamic */,
 				D0EA76582816EC1C00FB914B /* RxSwift */,
-				D0EA765A2816EC1C00FB914B /* RxSwift-Dynamic */,
-				D0EA765C2816EC1C00FB914B /* RxTest */,
-				D0EA765E2816EC1C00FB914B /* RxTest-Dynamic */,
 				D0EA766B2816F0F800FB914B /* FirebaseAuth */,
+				D05EE90428191E710063E93C /* SnapKit */,
 			);
 			productName = Messanger;
 			productReference = D0EA76152816EBB100FB914B /* Messanger.app */;
@@ -286,11 +291,9 @@
 					};
 					D0EA762D2816EBB300FB914B = {
 						CreatedOnToolsVersion = 13.2.1;
-						TestTargetID = D0EA76142816EBB100FB914B;
 					};
 					D0EA76372816EBB300FB914B = {
 						CreatedOnToolsVersion = 13.2.1;
-						TestTargetID = D0EA76142816EBB100FB914B;
 					};
 				};
 			};
@@ -306,6 +309,7 @@
 			packageReferences = (
 				D0EA764B2816EC1C00FB914B /* XCRemoteSwiftPackageReference "RxSwift" */,
 				D0EA766A2816F0F800FB914B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				D05EE90328191E700063E93C /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = D0EA76162816EBB100FB914B /* Products */;
 			projectDirPath = "";
@@ -324,6 +328,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0EA76282816EBB300FB914B /* LaunchScreen.storyboard in Resources */,
+				D05EE90D281920F00063E93C /* LoginViewController.storyboard in Resources */,
+				D05EE91828196FD00063E93C /* GoogleService-Info.plist in Resources */,
 				D0EA76252816EBB300FB914B /* Assets.xcassets in Resources */,
 				D0EA76202816EBB100FB914B /* Main.storyboard in Resources */,
 			);
@@ -351,8 +357,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0EA76692816EC7600FB914B /* LoginViewController.swift in Sources */,
+				D05EE91228192CC00063E93C /* UIColor.swift in Sources */,
 				D0EA76702816F8EC00FB914B /* PasswordViewModel.swift in Sources */,
 				D0EA761D2816EBB100FB914B /* ViewController.swift in Sources */,
+				D05EE910281929AF0063E93C /* UITextField.swift in Sources */,
 				D0EA76672816EC6A00FB914B /* LoginModel.swift in Sources */,
 				D0EA76722816F9E600FB914B /* EmailIdViewModel.swift in Sources */,
 				D0EA766E2816F80000FB914B /* ValidationViewModel.swift in Sources */,
@@ -591,7 +599,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Y9NCLVZ4U8;
@@ -603,7 +611,6 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Messanger.app/Messanger";
 			};
 			name = Debug;
 		};
@@ -611,7 +618,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Y9NCLVZ4U8;
@@ -623,7 +630,6 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Messanger.app/Messanger";
 			};
 			name = Release;
 		};
@@ -638,10 +644,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "petr-shtuka.MessangerUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Messanger;
 			};
 			name = Debug;
 		};
@@ -656,10 +662,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "petr-shtuka.MessangerUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Messanger;
 			};
 			name = Release;
 		};
@@ -705,6 +711,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D05EE90328191E700063E93C /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		D0EA764B2816EC1C00FB914B /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
@@ -724,55 +738,30 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D05EE90428191E710063E93C /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D05EE90328191E700063E93C /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
 		D0EA764C2816EC1C00FB914B /* RxBlocking */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D0EA764B2816EC1C00FB914B /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxBlocking;
-		};
-		D0EA764E2816EC1C00FB914B /* RxBlocking-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D0EA764B2816EC1C00FB914B /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = "RxBlocking-Dynamic";
 		};
 		D0EA76502816EC1C00FB914B /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D0EA764B2816EC1C00FB914B /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxCocoa;
 		};
-		D0EA76522816EC1C00FB914B /* RxCocoa-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D0EA764B2816EC1C00FB914B /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = "RxCocoa-Dynamic";
-		};
 		D0EA76542816EC1C00FB914B /* RxRelay */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D0EA764B2816EC1C00FB914B /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxRelay;
 		};
-		D0EA76562816EC1C00FB914B /* RxRelay-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D0EA764B2816EC1C00FB914B /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = "RxRelay-Dynamic";
-		};
 		D0EA76582816EC1C00FB914B /* RxSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D0EA764B2816EC1C00FB914B /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
-		};
-		D0EA765A2816EC1C00FB914B /* RxSwift-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D0EA764B2816EC1C00FB914B /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = "RxSwift-Dynamic";
-		};
-		D0EA765C2816EC1C00FB914B /* RxTest */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D0EA764B2816EC1C00FB914B /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxTest;
-		};
-		D0EA765E2816EC1C00FB914B /* RxTest-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D0EA764B2816EC1C00FB914B /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = "RxTest-Dynamic";
 		};
 		D0EA766B2816F0F800FB914B /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
