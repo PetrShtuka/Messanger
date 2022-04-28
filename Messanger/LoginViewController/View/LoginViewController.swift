@@ -36,12 +36,41 @@ class LoginViewController: UIViewController {
         return textfield
     }()
     
+    
     lazy var recoveryPasswordButton: UIButton = {
         let button = UIButton()
         button.setTitle("Recovery Password", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         button.setTitleColor(UIColor.init(hexString: "#858997"), for: .normal)
         return button
+    }()
+    
+    lazy var googleSignInButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "google"), for: .normal)
+        button.backgroundColor = .clear
+        return button
+    }()
+    
+    lazy var facebookSignInButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "google"), for: .normal)
+        button.backgroundColor = .clear
+        return button
+    }()
+    
+    lazy var viewGoogle: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 8
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    lazy var viewFacebook: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 8
+        view.backgroundColor = .white
+        return view
     }()
     
     lazy var signInButton: UIButton = {
@@ -58,6 +87,10 @@ class LoginViewController: UIViewController {
         self.view.addSubview(passwordTextField)
         self.view.addSubview(signInButton)
         self.view.addSubview(recoveryPasswordButton)
+        self.view.addSubview(viewGoogle)
+        self.view.addSubview(viewFacebook)
+        self.viewGoogle.addSubview(googleSignInButton)
+        self.viewFacebook.addSubview(facebookSignInButton)
         signInButton.addTarget(self, action: #selector(createViewModelBinding), for: .allEvents)
         
         createViewModelBinding();
@@ -99,6 +132,34 @@ class LoginViewController: UIViewController {
             make.top.equalTo(self.recoveryPasswordButton.snp.bottom).offset(30)
             make.centerX.equalToSuperview()
         }
+        
+        self.viewGoogle.snp.makeConstraints { (make) in
+            make.size.width.equalTo(65)
+            make.height.equalTo(65)
+            make.top.equalTo(self.signInButton.snp.bottom).offset(30)
+            make.centerX.equalToSuperview()
+        }
+        
+        self.viewFacebook.snp.makeConstraints { (make) in
+            make.size.width.equalTo(65)
+            make.height.equalTo(65)
+            make.top.equalTo(self.signInButton.snp.bottom).offset(30)
+            make.left.equalToSuperview().offset(50)
+        }
+        
+        self.facebookSignInButton.snp.makeConstraints { (make) in
+            make.size.width.equalTo(40)
+            make.height.equalTo(40)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
+        
+        self.googleSignInButton.snp.makeConstraints { (make) in
+            make.size.width.equalTo(40)
+            make.height.equalTo(40)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
     }
     
     @objc func createViewModelBinding() {
@@ -129,6 +190,5 @@ class LoginViewController: UIViewController {
                 // Show error
                 NSLog("Failure")
             }.disposed(by: disposeBag)
-        
     }
 }
