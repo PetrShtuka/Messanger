@@ -6,19 +6,20 @@
 //
 
 import UIKit
-import CoreData
-import FirebaseCore
+import Firebase
+import FBSDKCoreKit
 import GoogleSignIn
-import FirebaseAuth
+import CoreData
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-        let signInConfig = GIDConfiguration.init(clientID: "YOUR_IOS_CLIENT_ID")
+        FBSDKCoreKit.ApplicationDelegate.shared.application(
+                    application,
+                    didFinishLaunchingWithOptions: launchOptions
+                )
         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
           if error != nil || user == nil {
           
@@ -34,7 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if handled {
             return true
         }
-        
         return false
     }
     

@@ -8,13 +8,9 @@
 import Foundation
 
 struct UserModel {
-    var firstName: String
-    var lastName: String
-    var email: String
-    
-    init(firstName: String = "", lastName: String = "", email: String = "") {
-        self.firstName = firstName
-        self.lastName = lastName
-        self.email = email
-    }
+    var userId: String = ""
+       var type: LoginType = .google
+       var name: String = ""
+       var email: String = ""
+       var profilePic: String = ""
 }

@@ -9,9 +9,11 @@ import SnapKit
 import UIKit
 import RxSwift
 import RxCocoa
+import FacebookLogin
 
 
 class LoginViewController: UIViewController {
+    
     
     private let viewModel = LoginViewModel()
     let disposeBag = DisposeBag()
@@ -92,7 +94,7 @@ class LoginViewController: UIViewController {
         self.viewGoogle.addSubview(googleSignInButton)
         self.viewFacebook.addSubview(facebookSignInButton)
         signInButton.addTarget(self, action: #selector(createViewModelBinding), for: .allEvents)
-        
+        facebookSignInButton.addTarget(self, action: #selector(fbSignInTapped), for: .allEvents)
         createViewModelBinding();
         createCallbacks()
     }
@@ -177,6 +179,13 @@ class LoginViewController: UIViewController {
                 self.viewModel.authenticateToEmail()
             }
         }).disposed(by: disposeBag)
+    }
+    
+    @objc func fbSignInTapped() {
+        facebookSignInButton.rx.tap.bind{ [weak self] _ in
+            guard let strong = self else {return}
+            self?.viewModel.fbLogin(viewController: strong)
+        }.disposed(by: disposeBag)
     }
     
     func createCallbacks (){

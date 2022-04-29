@@ -19,16 +19,37 @@
 	<key>STORAGE_BUCKET</key>
 	<string>messanger-d9866.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:826246762900:ios:3bf59d62f52e397b33bf81</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+       <dict>
+       <key>CFBundleURLSchemes</key>
+       <array>
+          <string>fb000000000000000</string>
+       </array>
+       </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>703468760979275</string>
+    <key>FacebookDisplayName</key>
+    <string>AuthAppDemo</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>fbapi</string>
+        <string>fb-messenger-share-api</string>
+        <string>fbauth2</string>
+        <string>fbshareextension</string>
+    </array>
 </dict>
 </plist>
+
