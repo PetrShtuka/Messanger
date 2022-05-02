@@ -23,6 +23,7 @@ class LoginViewModel {
     let emailIdViewModel = EmailIdViewModel()
     let passwordViewModel = PasswordViewModel()
     var fbUserDetails: PublishSubject<UserModel> = PublishSubject()
+    var googleUserDetails: PublishSubject<UserModel> = PublishSubject()
     
     
     func validateCredentials() -> Bool {
@@ -49,7 +50,6 @@ class LoginViewModel {
             } else {
                 print("User signs up successfully")
                 let newUserInfo = Auth.auth().currentUser
-                print(newUserInfo)
                 let email = self?.user.email
                 print(email)
             }
@@ -67,41 +67,66 @@ class LoginViewModel {
         })
     }
     
+    func googleSignIn(_ viewController: LoginViewController) {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController) { user, error in
+            guard error == nil else { return }
+            guard let user = user else { return }
+            
+            if let profileData = user.profile {
+                var avatar : String = ""
+                if let imgurl = user.profile?.imageURL(withDimension: 100) {
+                    avatar = imgurl.absoluteString
+                }
+                let user = UserModel(userId: user.userID ?? "",
+                                     type: .google,
+                                     name: profileData.givenName ?? "",
+                                     email: profileData.email,
+                                     profilePic: avatar)
+            }
+        }
+    }
+    
     func fbLogin(viewController: UIViewController) {
-          LoginManager().logIn(permissions: ["public_profile", "email"], from: viewController) { [weak self] (result, error) in
-              guard let strongSelf = self else {return}
-              if let error = error {
-                  strongSelf.fbUserDetails.onError(error)
-              } else if result?.isCancelled ?? false {
-                  // User Cancelled
-              } else {
-                  if let _ = AccessToken.current {
-                      strongSelf.getProfileFromFB()
-                  }
-              }
-          }
-      }
+        LoginManager().logIn(permissions: ["public_profile", "email"], from: viewController) { [weak self] (result, error) in
+            guard let strongSelf = self else {return}
+            if let error = error {
+                strongSelf.fbUserDetails.onError(error)
+            } else if result?.isCancelled ?? false {
+                // User Cancelled
+            } else {
+                if let _ = AccessToken.current {
+                    strongSelf.getProfileFromFB()
+                }
+            }
+        }
+    }
     
     private func getProfileFromFB() {
         FBRequest.shared.facebookRequest().start { [weak self] (connection, result, error) in
             guard let strong = self else {return}
-                    if let error = error {
-                        strong.fbUserDetails.onError(error)
-                    } else {
-                        guard let user = result as? [String: Any] else { return }
-                        let name = (user["name"] as? String) ?? ""
-                        let email = (user["email"] as? String) ?? ""
-                        let userId = (user["id"] as? String) ?? ""
-                        var imageURL: String = ""
-                        if let profilePictureObj = user["picture"] as? [String: Any],
-                            let data = profilePictureObj["data"] as? [String: Any],
-                            let pictureUrlString  = data["url"] as? String,
-                            let pictureUrl = NSURL(string: pictureUrlString) {
-                            imageURL = pictureUrl.absoluteString ?? ""
-                        }
-                        let userSocial = UserModel.init(userId: userId, type: .facebook, name: name, email: email, profilePic: imageURL)
-                        strong.fbUserDetails.onNext(userSocial)
-                    }
-               }
+            if let error = error {
+                strong.fbUserDetails.onError(error)
+            } else {
+                guard let user = result as? [String: Any] else { return }
+                let name = (user["name"] as? String) ?? ""
+                let email = (user["email"] as? String) ?? ""
+                let userId = (user["id"] as? String) ?? ""
+                var imageURL: String = ""
+                if let profilePictureObj = user["picture"] as? [String: Any],
+                   let data = profilePictureObj["data"] as? [String: Any],
+                   let pictureUrlString  = data["url"] as? String,
+                   let pictureUrl = NSURL(string: pictureUrlString) {
+                    imageURL = pictureUrl.absoluteString ?? ""
+                }
+                let userSocial = UserModel.init(userId: userId,
+                                                type: .facebook,
+                                                name: name,
+                                                email: email,
+                                                profilePic: imageURL)
+                strong.fbUserDetails.onNext(userSocial)
+            }
         }
+    }
 }

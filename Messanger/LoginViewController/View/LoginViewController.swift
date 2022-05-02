@@ -10,13 +10,35 @@ import UIKit
 import RxSwift
 import RxCocoa
 import FacebookLogin
+import GoogleSignIn
 
 
 class LoginViewController: UIViewController {
     
-    
+    private let googleSignIn = GIDSignIn.sharedInstance
     private let viewModel = LoginViewModel()
     let disposeBag = DisposeBag()
+    
+    lazy var helloText: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.layer.cornerRadius = 6
+        label.text = "Hello Again"
+        label.font = UIFont.systemFont(ofSize: 30.0)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    lazy var descriptionText: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.layer.cornerRadius = 6
+        label.text = "Wellcome back you've been missed"
+        label.font = UIFont.systemFont(ofSize: 20.0)
+        label.textAlignment = .center
+        label.numberOfLines = 3
+        return label
+    }()
     
     lazy var emailTextField: UITextField = {
         let textfield = UITextField()
@@ -56,12 +78,27 @@ class LoginViewController: UIViewController {
     
     lazy var facebookSignInButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "google"), for: .normal)
+        button.setImage(UIImage(named: "facebook"), for: .normal)
+        button.backgroundColor = .clear
+        
+        return button
+    }()
+    
+    lazy var appleSignInButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "apple"), for: .normal)
         button.backgroundColor = .clear
         return button
     }()
     
     lazy var viewGoogle: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 8
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    lazy var viewApple: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 8
         view.backgroundColor = .white
@@ -91,11 +128,16 @@ class LoginViewController: UIViewController {
         self.view.addSubview(recoveryPasswordButton)
         self.view.addSubview(viewGoogle)
         self.view.addSubview(viewFacebook)
+        self.view.addSubview(viewApple)
+        self.view.addSubview(helloText)
+        self.view.addSubview(descriptionText)
         self.viewGoogle.addSubview(googleSignInButton)
         self.viewFacebook.addSubview(facebookSignInButton)
-        signInButton.addTarget(self, action: #selector(createViewModelBinding), for: .allEvents)
-        facebookSignInButton.addTarget(self, action: #selector(fbSignInTapped), for: .allEvents)
-        createViewModelBinding();
+        self.viewApple.addSubview(appleSignInButton)
+        signInButton.addTarget(self, action: #selector(emailSingInTapped), for: .touchDown)
+        facebookSignInButton.addTarget(self, action: #selector(fbSignInTapped), for: .touchDown)
+        googleSignInButton.addTarget(self, action: #selector(googleSignInTapped), for: .touchDown)
+        emailSingInTapped();
         createCallbacks()
     }
     
@@ -146,12 +188,19 @@ class LoginViewController: UIViewController {
             make.size.width.equalTo(65)
             make.height.equalTo(65)
             make.top.equalTo(self.signInButton.snp.bottom).offset(30)
-            make.left.equalToSuperview().offset(50)
+            make.leading.equalToSuperview().offset(40)
+        }
+        
+        self.viewApple.snp.makeConstraints { (make) in
+            make.size.width.equalTo(65)
+            make.height.equalTo(65)
+            make.top.equalTo(self.signInButton.snp.bottom).offset(30)
+            make.trailing.equalToSuperview().offset(-40)
         }
         
         self.facebookSignInButton.snp.makeConstraints { (make) in
-            make.size.width.equalTo(40)
-            make.height.equalTo(40)
+            make.size.width.equalTo(46)
+            make.height.equalTo(46)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
         }
@@ -162,9 +211,31 @@ class LoginViewController: UIViewController {
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
         }
+        
+        self.appleSignInButton.snp.makeConstraints { (make) in
+            make.size.width.equalTo(37)
+            make.height.equalTo(37)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
+        
+        
+        self.helloText.snp.makeConstraints { (make) in
+            make.height.equalTo(37)
+            make.top.equalTo(self.descriptionText.snp.bottom).offset(-120)
+            make.left.equalToSuperview().offset(40)
+            make.right.equalToSuperview().offset(-40)
+        }
+        
+        self.descriptionText.snp.makeConstraints { (make) in
+            make.height.equalTo(70)
+            make.top.equalTo(self.emailTextField.snp.top).offset(-100)
+            make.left.equalToSuperview().offset(40)
+            make.right.equalToSuperview().offset(-40)
+        }
     }
     
-    @objc func createViewModelBinding() {
+    @objc func emailSingInTapped() {
         emailTextField.rx.text.orEmpty
             .bind(to: viewModel.emailIdViewModel.data)
             .disposed(by: disposeBag)
@@ -185,6 +256,13 @@ class LoginViewController: UIViewController {
         facebookSignInButton.rx.tap.bind{ [weak self] _ in
             guard let strong = self else {return}
             self?.viewModel.fbLogin(viewController: strong)
+        }.disposed(by: disposeBag)
+    }
+    
+    @objc func googleSignInTapped() {
+        googleSignInButton.rx.tap.bind{ [weak self] _ in
+            guard let view = self else {return}
+            self?.viewModel.googleSignIn(view)
         }.disposed(by: disposeBag)
     }
     
