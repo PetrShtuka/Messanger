@@ -51,7 +51,6 @@ class LoginViewModel {
                 print("User signs up successfully")
                 let newUserInfo = Auth.auth().currentUser
                 let email = self?.user.email
-                print(email)
             }
             
             guard let result = authResult, error == nil else {

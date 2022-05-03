@@ -14,10 +14,10 @@ import GoogleSignIn
 
 
 class LoginViewController: UIViewController {
-    
     private let googleSignIn = GIDSignIn.sharedInstance
     private let viewModel = LoginViewModel()
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
+    private var passwordVisible = false
     
     lazy var helloText: UILabel = {
         let label = UILabel()
@@ -47,6 +47,7 @@ class LoginViewController: UIViewController {
         textfield.placeholder = "Email"
         textfield.font?.withSize(15)
         textfield.setLeftPaddingPoints(10)
+        textfield.delegate = self
         return textfield
     }()
     
@@ -57,6 +58,7 @@ class LoginViewController: UIViewController {
         textfield.placeholder = "Password"
         textfield.setLeftPaddingPoints(10)
         textfield.font?.withSize(15)
+        textfield.delegate = self
         return textfield
     }()
     
@@ -66,6 +68,14 @@ class LoginViewController: UIViewController {
         button.setTitle("Recovery Password", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         button.setTitleColor(UIColor.init(hexString: "#858997"), for: .normal)
+        return button
+    }()
+    
+    lazy var hidePasswordButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage.init(systemName: "eye.slash"), for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+        button.tintColor = .black
         return button
     }()
     
@@ -131,18 +141,24 @@ class LoginViewController: UIViewController {
         self.view.addSubview(viewApple)
         self.view.addSubview(helloText)
         self.view.addSubview(descriptionText)
+        self.passwordTextField.isSecureTextEntry = false
+        self.passwordTextField.addSubview(hidePasswordButton)
+        passwordTextField.isSecureTextEntry.toggle()
         self.viewGoogle.addSubview(googleSignInButton)
         self.viewFacebook.addSubview(facebookSignInButton)
         self.viewApple.addSubview(appleSignInButton)
         signInButton.addTarget(self, action: #selector(emailSingInTapped), for: .touchDown)
         facebookSignInButton.addTarget(self, action: #selector(fbSignInTapped), for: .touchDown)
         googleSignInButton.addTarget(self, action: #selector(googleSignInTapped), for: .touchDown)
-        emailSingInTapped();
+        hidePasswordButton.addTarget(self, action: #selector(showHideTapped), for: .touchDown)
+        emailSingInTapped()
+        passwordTextField.alpha = 0
         createCallbacks()
+        animationHidenPassword()
     }
     
     override func viewDidLayoutSubviews() {
-        self.updateSubviewConstraints()
+        updateSubviewConstraints()
     }
     
     override func didReceiveMemoryWarning() {
@@ -162,12 +178,6 @@ class LoginViewController: UIViewController {
             make.height.equalTo(50)
             make.top.equalTo(self.emailTextField.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
-        }
-        
-        self.recoveryPasswordButton.snp.makeConstraints { (make) in
-            make.width.equalToSuperview().multipliedBy(1.45)
-            make.height.equalTo(14)
-            make.top.equalTo(self.passwordTextField.snp.bottom).offset(30)
         }
         
         self.signInButton.snp.makeConstraints { (make) in
@@ -219,7 +229,6 @@ class LoginViewController: UIViewController {
             make.centerY.equalToSuperview()
         }
         
-        
         self.helloText.snp.makeConstraints { (make) in
             make.height.equalTo(37)
             make.top.equalTo(self.descriptionText.snp.bottom).offset(-120)
@@ -232,6 +241,11 @@ class LoginViewController: UIViewController {
             make.top.equalTo(self.emailTextField.snp.top).offset(-100)
             make.left.equalToSuperview().offset(40)
             make.right.equalToSuperview().offset(-40)
+        }
+        //
+        self.hidePasswordButton.snp.makeConstraints { (make) in
+            make.right.equalToSuperview().offset(-10)
+            make.centerY.equalToSuperview()
         }
     }
     
@@ -266,6 +280,41 @@ class LoginViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
     
+    func animationHidenPassword() {
+        let isEmptyEmailTextField = emailTextField.text?.isEmpty ?? true
+        if  isEmptyEmailTextField {
+            UIView.animate(withDuration: 0.5, animations: {
+                self.passwordTextField.alpha = 0
+                self.recoveryPasswordButton.snp.makeConstraints { (make) in
+                    make.width.equalToSuperview().multipliedBy(1.45)
+                    make.height.equalTo(14)
+                    make.top.equalTo(self.emailTextField.snp.bottom).offset(20)
+                }
+            })
+        } else {
+            UIView.animate(withDuration: 0.5, animations: {
+                self.passwordTextField.alpha = 1
+                self.recoveryPasswordButton.snp.updateConstraints { (make) in
+                    make.width.equalToSuperview().multipliedBy(1.45)
+                    make.height.equalTo(14)
+                    make.top.equalTo(self.emailTextField.snp.bottom).offset(80)
+                }
+            })
+        }
+    }
+    
+    @objc func showHideTapped() {
+        if passwordVisible {
+            passwordTextField.isSecureTextEntry = false
+            hidePasswordButton.setImage(UIImage.init(systemName: "eye.slash"), for: .normal)
+            passwordVisible = false
+        } else {
+            passwordTextField.isSecureTextEntry = true
+            hidePasswordButton.setImage(UIImage.init(systemName: "eye"), for: .normal)
+            passwordVisible = true
+        }
+    }
+    
     func createCallbacks (){
         viewModel.isSuccess.asObservable()
             .bind{ value in
@@ -277,5 +326,14 @@ class LoginViewController: UIViewController {
                 // Show error
                 NSLog("Failure")
             }.disposed(by: disposeBag)
+    }
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if !(emailTextField.text?.isEmpty ?? false) {
+            animationHidenPassword()
+        }
+        return true
     }
 }
