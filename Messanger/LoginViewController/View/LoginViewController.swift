@@ -9,15 +9,45 @@ import SnapKit
 import UIKit
 import RxSwift
 import RxCocoa
-import FacebookLogin
-import GoogleSignIn
-
 
 class LoginViewController: UIViewController {
-    private let googleSignIn = GIDSignIn.sharedInstance
     private let viewModel = LoginViewModel()
     private let disposeBag = DisposeBag()
     private var passwordVisible = false
+    
+    lazy var backgroundGradient: UIImageView = {
+        var image = UIImageView()
+        image = UIImageView(image: UIImage(named: "background"))
+        image.alpha = 0.7
+        return image
+    }()
+    
+    lazy var signUpWith: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.layer.cornerRadius = 6
+        label.text = "- Sign Up With -"
+        label.font = UIFont.systemFont(ofSize: 13.0)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    lazy var notMember: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.layer.cornerRadius = 6
+        label.text = "Not a member?"
+        label.font = UIFont.systemFont(ofSize: 13.0)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    lazy var registerNowButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Register Now", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+        return button
+    }()
     
     lazy var helloText: UILabel = {
         let label = UILabel()
@@ -82,7 +112,6 @@ class LoginViewController: UIViewController {
     lazy var googleSignInButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "google"), for: .normal)
-        button.backgroundColor = .clear
         return button
     }()
     
@@ -104,21 +133,27 @@ class LoginViewController: UIViewController {
     lazy var viewGoogle: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 8
-        view.backgroundColor = .white
+        view.layer.borderWidth = 2
+        view.layer.borderColor = UIColor.white.cgColor
+        view.backgroundColor = .clear
         return view
     }()
     
     lazy var viewApple: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 8
-        view.backgroundColor = .white
+        view.layer.borderWidth = 2
+        view.layer.borderColor = UIColor.white.cgColor
+        view.backgroundColor = .clear
         return view
     }()
     
     lazy var viewFacebook: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 8
-        view.backgroundColor = .white
+        view.layer.borderWidth = 2
+        view.layer.borderColor = UIColor.white.cgColor
+        view.backgroundColor = .clear
         return view
     }()
     
@@ -132,25 +167,30 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(emailTextField)
-        self.view.addSubview(passwordTextField)
-        self.view.addSubview(signInButton)
-        self.view.addSubview(recoveryPasswordButton)
-        self.view.addSubview(viewGoogle)
-        self.view.addSubview(viewFacebook)
-        self.view.addSubview(viewApple)
-        self.view.addSubview(helloText)
-        self.view.addSubview(descriptionText)
-        self.passwordTextField.isSecureTextEntry = false
-        self.passwordTextField.addSubview(hidePasswordButton)
+        view.addSubview(notMember)
+        view.addSubview(registerNowButton)
+        view.addSubview(backgroundGradient)
+        view.addSubview(signUpWith)
+        view.addSubview(emailTextField)
+        view.addSubview(passwordTextField)
+        view.addSubview(signInButton)
+        view.addSubview(recoveryPasswordButton)
+        view.addSubview(viewGoogle)
+        view.addSubview(viewFacebook)
+        view.addSubview(viewApple)
+        view.addSubview(helloText)
+        view.addSubview(descriptionText)
+        passwordTextField.isSecureTextEntry = false
+        passwordTextField.addSubview(hidePasswordButton)
         passwordTextField.isSecureTextEntry.toggle()
-        self.viewGoogle.addSubview(googleSignInButton)
-        self.viewFacebook.addSubview(facebookSignInButton)
-        self.viewApple.addSubview(appleSignInButton)
+        viewGoogle.addSubview(googleSignInButton)
+        viewFacebook.addSubview(facebookSignInButton)
+        viewApple.addSubview(appleSignInButton)
         signInButton.addTarget(self, action: #selector(emailSingInTapped), for: .touchDown)
         facebookSignInButton.addTarget(self, action: #selector(fbSignInTapped), for: .touchDown)
         googleSignInButton.addTarget(self, action: #selector(googleSignInTapped), for: .touchDown)
         hidePasswordButton.addTarget(self, action: #selector(showHideTapped), for: .touchDown)
+        appleSignInButton.addTarget(self, action: #selector(appleSignInTapped), for: .touchDown)
         emailSingInTapped()
         passwordTextField.alpha = 0
         createCallbacks()
@@ -187,44 +227,51 @@ class LoginViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
-        self.viewGoogle.snp.makeConstraints { (make) in
-            make.size.width.equalTo(65)
-            make.height.equalTo(65)
-            make.top.equalTo(self.signInButton.snp.bottom).offset(30)
+        self.viewApple.snp.makeConstraints { (make) in
+            make.size.width.equalTo(80)
+            make.height.equalTo(55)
+            make.top.equalTo(self.signInButton.snp.bottom).offset(50)
             make.centerX.equalToSuperview()
         }
         
         self.viewFacebook.snp.makeConstraints { (make) in
-            make.size.width.equalTo(65)
-            make.height.equalTo(65)
-            make.top.equalTo(self.signInButton.snp.bottom).offset(30)
+            make.size.width.equalTo(80)
+            make.height.equalTo(45)
             make.leading.equalToSuperview().offset(40)
+            make.centerY.equalTo(self.viewApple.snp.centerY)
         }
         
-        self.viewApple.snp.makeConstraints { (make) in
-            make.size.width.equalTo(65)
-            make.height.equalTo(65)
-            make.top.equalTo(self.signInButton.snp.bottom).offset(30)
+        self.viewGoogle.snp.makeConstraints { (make) in
+            make.size.width.equalTo(80)
+            make.height.equalTo(45)
+            make.centerY.equalTo(self.viewApple.snp.centerY)
             make.trailing.equalToSuperview().offset(-40)
         }
         
-        self.facebookSignInButton.snp.makeConstraints { (make) in
-            make.size.width.equalTo(46)
-            make.height.equalTo(46)
+        self.signUpWith.snp.makeConstraints { (make) in
+            make.size.width.equalTo(100)
+            make.height.equalTo(30)
+            make.top.equalTo(self.signInButton.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
         }
         
-        self.googleSignInButton.snp.makeConstraints { (make) in
+        self.facebookSignInButton.snp.makeConstraints { (make) in
             make.size.width.equalTo(40)
             make.height.equalTo(40)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
         }
         
+        self.googleSignInButton.snp.makeConstraints { (make) in
+            make.size.width.equalTo(35)
+            make.height.equalTo(35)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
+        
         self.appleSignInButton.snp.makeConstraints { (make) in
-            make.size.width.equalTo(37)
-            make.height.equalTo(37)
+            make.size.width.equalTo(32)
+            make.height.equalTo(32)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
         }
@@ -242,10 +289,17 @@ class LoginViewController: UIViewController {
             make.left.equalToSuperview().offset(40)
             make.right.equalToSuperview().offset(-40)
         }
-        //
+        
         self.hidePasswordButton.snp.makeConstraints { (make) in
             make.right.equalToSuperview().offset(-10)
             make.centerY.equalToSuperview()
+        }
+        
+        self.backgroundGradient.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
         }
     }
     
@@ -261,7 +315,9 @@ class LoginViewController: UIViewController {
             self.passwordTextField.resignFirstResponder()
         }).subscribe(onNext: { [unowned self] in
             if self.viewModel.validateCredentials() {
-                self.viewModel.authenticateToEmail()
+                self.viewModel.authenticateToEmail(self)
+            } else {
+                presentAlert(withTitle: "Warning", message: "Plz check email address or password")
             }
         }).disposed(by: disposeBag)
     }
@@ -270,6 +326,12 @@ class LoginViewController: UIViewController {
         facebookSignInButton.rx.tap.bind{ [weak self] _ in
             guard let strong = self else {return}
             self?.viewModel.fbLogin(viewController: strong)
+        }.disposed(by: disposeBag)
+    }
+    
+    @objc func appleSignInTapped() {
+        appleSignInButton.rx.tap.bind{ [weak self] _ in
+            self?.viewModel.startSignInWithAppleFlow()
         }.disposed(by: disposeBag)
     }
     
@@ -283,16 +345,14 @@ class LoginViewController: UIViewController {
     func animationHidenPassword() {
         let isEmptyEmailTextField = emailTextField.text?.isEmpty ?? true
         if  isEmptyEmailTextField {
-            UIView.animate(withDuration: 0.5, animations: {
                 self.passwordTextField.alpha = 0
                 self.recoveryPasswordButton.snp.makeConstraints { (make) in
                     make.width.equalToSuperview().multipliedBy(1.45)
                     make.height.equalTo(14)
                     make.top.equalTo(self.emailTextField.snp.bottom).offset(20)
-                }
-            })
+            }
         } else {
-            UIView.animate(withDuration: 0.5, animations: {
+            UIView.animate(withDuration: 0.4, animations: {
                 self.passwordTextField.alpha = 1
                 self.recoveryPasswordButton.snp.updateConstraints { (make) in
                     make.width.equalToSuperview().multipliedBy(1.45)
@@ -335,5 +395,14 @@ extension LoginViewController: UITextFieldDelegate {
             animationHidenPassword()
         }
         return true
+    }
+}
+
+extension LoginViewController {
+    func showAlert(with error: String) {
+        let okAlertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        let alertViewController = UIAlertController(title: "Something went wrong", message: error, preferredStyle: .alert)
+        alertViewController.addAction(okAlertAction)
+        present(alertViewController, animated: true, completion: nil)
     }
 }

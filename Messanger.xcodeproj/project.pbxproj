@@ -13,7 +13,7 @@
 		D05EE91228192CC00063E93C /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05EE91128192CC00063E93C /* UIColor.swift */; };
 		D05EE91828196FD00063E93C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D05EE91728196FD00063E93C /* GoogleService-Info.plist */; };
 		D0A1CDA5281C10DC00D10C44 /* LoginType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A1CDA4281C10DC00D10C44 /* LoginType.swift */; };
-		D0A1CDA7281ECC4500D10C44 /* GoogleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A1CDA6281ECC4500D10C44 /* GoogleRequest.swift */; };
+		D0AFB3A5282543A3000781E1 /* Alert+UiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AFB3A4282543A3000781E1 /* Alert+UiViewController.swift */; };
 		D0B9DAF1281ACB98004EEA7F /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = D0B9DAF0281ACB98004EEA7F /* GoogleSignIn */; };
 		D0B9DAF5281AD5B8004EEA7F /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = D0B9DAF4281AD5B8004EEA7F /* FacebookLogin */; };
 		D0B9DAF7281AD5B8004EEA7F /* FacebookShare in Frameworks */ = {isa = PBXBuildFile; productRef = D0B9DAF6281AD5B8004EEA7F /* FacebookShare */; };
@@ -64,8 +64,9 @@
 		D05EE90F281929AF0063E93C /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		D05EE91128192CC00063E93C /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		D05EE91728196FD00063E93C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D0981F9B2823EA290097D92B /* MessangerRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MessangerRelease.entitlements; sourceTree = "<group>"; };
 		D0A1CDA4281C10DC00D10C44 /* LoginType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginType.swift; sourceTree = "<group>"; };
-		D0A1CDA6281ECC4500D10C44 /* GoogleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleRequest.swift; sourceTree = "<group>"; };
+		D0AFB3A4282543A3000781E1 /* Alert+UiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alert+UiViewController.swift"; sourceTree = "<group>"; };
 		D0B9DAFA281AD7AD004EEA7F /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		D0B9DAFE281AD856004EEA7F /* FBRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBRequest.swift; sourceTree = "<group>"; };
 		D0EA76152816EBB100FB914B /* Messanger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Messanger.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +130,7 @@
 			children = (
 				D05EE90F281929AF0063E93C /* UITextField.swift */,
 				D05EE91128192CC00063E93C /* UIColor.swift */,
+				D0AFB3A4282543A3000781E1 /* Alert+UiViewController.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -152,7 +154,6 @@
 			isa = PBXGroup;
 			children = (
 				D0B9DAFE281AD856004EEA7F /* FBRequest.swift */,
-				D0A1CDA6281ECC4500D10C44 /* GoogleRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -181,6 +182,7 @@
 		D0EA76172816EBB100FB914B /* Messanger */ = {
 			isa = PBXGroup;
 			children = (
+				D0981F9B2823EA290097D92B /* MessangerRelease.entitlements */,
 				D0B9DAFC281AD837004EEA7F /* Service */,
 				D05EE91728196FD00063E93C /* GoogleService-Info.plist */,
 				D05EE90E2819299B0063E93C /* Extension */,
@@ -407,8 +409,8 @@
 				D05EE91228192CC00063E93C /* UIColor.swift in Sources */,
 				D0EA76702816F8EC00FB914B /* PasswordViewModel.swift in Sources */,
 				D0EA761D2816EBB100FB914B /* ViewController.swift in Sources */,
-				D0A1CDA7281ECC4500D10C44 /* GoogleRequest.swift in Sources */,
 				D05EE910281929AF0063E93C /* UITextField.swift in Sources */,
+				D0AFB3A5282543A3000781E1 /* Alert+UiViewController.swift in Sources */,
 				D0B9DAFB281AD7AD004EEA7F /* UserModel.swift in Sources */,
 				D0EA76672816EC6A00FB914B /* LoginModel.swift in Sources */,
 				D0EA76722816F9E600FB914B /* EmailIdViewModel.swift in Sources */,
@@ -623,9 +625,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Messanger/MessangerRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y9NCLVZ4U8;
+				DEVELOPMENT_TEAM = SPXB45LN2P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Messanger/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

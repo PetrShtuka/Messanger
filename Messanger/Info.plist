@@ -9,6 +9,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>fb703468760979275</string>
 				<string>com.googleusercontent.apps.826246762900-bm22gso21e3tev8jhknu21s935vmj83p</string>
 			</array>
 		</dict>
@@ -28,7 +29,17 @@
 				<string>com.googleusercontent.apps.1234567890-abcdefg</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array/>
+		</dict>
 	</array>
+	<key>FacebookAppID</key>
+	<string>703468760979275</string>
+	<key>FacebookClientToken</key>
+	<string>249c2a3a22fd0551add933ae821987ad</string>
 	<key>NSAppTransportSecurity</key>
 	<dict/>
 	<key>UIApplicationSceneManifest</key>
